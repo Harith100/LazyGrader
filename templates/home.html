@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Exam Paper Correction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>AI Exam Paper Correction</h1>
+        <form action="{{ url_for('results') }}" method="post" enctype="multipart/form-data">
+            <div class="upload-section">
+                <label for="question-paper">Upload Question Paper (PDF/Image):</label>
+                <input type="file" name="question-paper" id="question-paper" accept="application/pdf, image/*">
+            </div>
+            <div class="upload-section">
+                <label for="answer-papers">Upload Answer Papers (PDF/Image):</label>
+                <input type="file" name="answer-papers" id="answer-papers" accept="application/pdf, image/*" multiple>
+            </div>
+            <button type="submit" class="btn-submit">Submit for Analysis</button>
+        </form>
+    </div>
+</body>
+</html>
