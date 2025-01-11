@@ -14,7 +14,8 @@ class Brain:
 
 Student Answer: "Copper and aluminum conduct electricity."
 
-Generate fake answers: "Electricity flows only through rubber and plastic," "Conductors stop electricity from flowing," "Electricity travels faster in insulators," "Copper is an insulator," "Electricity cannot flow through metals," "Aluminum blocks electricity," "Rubber conducts electricity better than copper," "All materials conduct electricity equally," "Electricity only flows through wires."""}
+Generate fake answers: "Electricity flows only through rubber and plastic," "Conductors stop electricity from flowing," "Electricity travels faster in insulators," "Copper is an insulator," "Electricity cannot flow through metals," "Aluminum blocks electricity," "Rubber conducts electricity better than copper," "All materials conduct electricity equally," "Electricity only flows through wires.
+                            even if the student answer is right or wrong, always generate fake answer"""}
         ]  # Initializes the conversation with system instructions
 
     def generate(self, message):
@@ -52,6 +53,6 @@ if __name__ == "__main__":
     
     out=brain.operate("""Teacher Answer: "Electricity flows through conductors like copper and aluminum."
 
-Student Answer: "Copper and aluminum conduct electricity.""")
+Student Answer: "Copper and aluminum do not conduct electricity.""")
     print(out)
     
