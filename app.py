@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 
 # Initialize Analyser
-analyser = Analyser()
+analyser = Analyser(threshold=0.6)
 
 # Initialize Hand2Text
 hand2text = Hand2Text()
@@ -59,11 +59,13 @@ def results():
 
     # Render results
     return render_template(
-        'results.html',
-        scores=scores,
-        question_text=list(question_dict.values()),
-        answer_text=list(answer_dict.values())
+    'results.html',
+    scores=scores,
+    question_text=list(question_dict.values()),
+    answer_text=list(answer_dict.values()),
+    key_dict=key_dict
     )
+
 
 if __name__ == '__main__':
     app.run(debug=True)

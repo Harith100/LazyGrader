@@ -138,3 +138,24 @@ h1 {
 .upload-section {
     margin-bottom: 20px;
 }
+
+.key-container {
+    background: #0a0a0a; /* Dark background */
+    border: 1px solid #00ff00; /* Terminal green border */
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 255, 0, 0.3);
+    max-height: 500px;
+    overflow-y: auto;
+    color: #00ff00; /* Terminal green text */
+}
+
+.key-item {
+    background: #111; /* Slightly lighter black */
+    border: 1px solid #00cc00; /* Slightly darker green */
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 255, 0, 0.2);
+    text-align: left;
+}

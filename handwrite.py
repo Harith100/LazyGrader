@@ -89,7 +89,7 @@ class Hand2Text:
     
     def evaluate(self, pdf_path):
         response=self.transcribe_answer_sheet(pdf_path)
-        print(response)
+        # print(response)
         res=self.parse_responses(response)
         return res
 
