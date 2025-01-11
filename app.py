@@ -1,41 +1,36 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, request, render_template
 import os
-from PyPDF2 import PdfReader
 from handwrite import Hand2Text
 from Analyser import Analyser
-
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = 'uploads'
 
-# Create a directory to store uploaded files
-UPLOAD_FOLDER = 'uploads'
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-
+# Ensure the upload folder exists
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 @app.route('/')
 def home():
     return render_template('home.html')
 
-
 @app.route('/results', methods=['POST'])
 def results():
     # Handle file uploads
     question_paper = request.files.get('question-paper')
-    answer_papers = request.files.getlist('answer-papers')
+    answer_papers = request.files.get('answer-papers')
+    answer_key = request.files.get('answer-key')
 
-    if not question_paper or not answer_papers:
-        return "Please upload both question paper and answer papers."
+    if not question_paper or not answer_papers or not answer_key:
+        return "Please upload all required files: Question Paper, Answer Papers, and Answer Key."
 
     # Save uploaded files
     question_paper_path = os.path.join(app.config['UPLOAD_FOLDER'], question_paper.filename)
     question_paper.save(question_paper_path)
 
-    answer_paper_paths = []
-    for answer_paper in answer_papers:
-        answer_paper_path = os.path.join(app.config['UPLOAD_FOLDER'], answer_paper.filename)
-        answer_paper.save(answer_paper_path)
-        answer_paper_paths.append(answer_paper_path)
+    answer_paper_path = os.path.join(app.config['UPLOAD_FOLDER'], answer_papers.filename)
+    answer_papers.save(answer_paper_path)
+
+    answer_key_path = os.path.join(app.config['UPLOAD_FOLDER'], answer_key.filename)
+    answer_key.save(answer_key_path)
 
     # Initialize Hand2Text
     hand2text = Hand2Text()
@@ -43,31 +38,25 @@ def results():
     # Extract question and answers as dictionaries
     try:
         question_dict = hand2text.evaluate(question_paper_path)
-    except Exception as e:
-        return f"Failed to process question paper: {e}"
-
-    
-    try:
         answer_dict = hand2text.evaluate(answer_paper_path)
+        key_dict = hand2text.evaluate(answer_key_path)
     except Exception as e:
-        return f"Failed to process an answer sheet: {e}"    
-    # For now, dummy scoring for each question
-    
+        return f"Failed to process uploaded files: {e}"
+
     print("Question_Dict:", question_dict)
     print("Answer_Dict:", answer_dict)
-    
-    
-    dummy_scores = {
-        "Question 1": 8,
-        "Question 2": 6,
-        "Question 3": 7,
-        "Question 4": 10,
-    }
+    print("Key_Dict:", key_dict)
 
-    
+    # Dummy scoring for now
+    scores = {key: 10 for key in question_dict.keys()}  # Replace with your scoring logic
+
     # Render results
-    return render_template('results.html', scores=dummy_scores, question_text=question_dict, answer_texts=answer_dict)
-
+    return render_template(
+        'results.html',
+        scores=scores,
+        question_text=list(question_dict.values()),
+        answer_text=list(answer_dict.values())
+    )
 
 if __name__ == '__main__':
     app.run(debug=True)

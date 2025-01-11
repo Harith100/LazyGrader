@@ -66,7 +66,7 @@ class Hand2Text:
                         Avoid unnecessary introductory text like: "Here is the text:" ,"This is the answer:".
                         Any greetings, acknowledgments, or unrelated information.
                         Preserve the formatting of the content exactly as provided, without adding any extra words or phrases.
-                        Ensure each question's number and answer are clearly separated. Do not merge answers into a single paragraph.
+                        Ensure each question's number( use '1)' format for numbering) and answer are clearly separated. Do not merge answers into a single paragraph.
                         Do not include any additional explanations or comments unrelated to the answers. Only provide clean, structured text as described above.
                             """,
                             ],
@@ -89,10 +89,11 @@ class Hand2Text:
     
     def evaluate(self, pdf_path):
         response=self.transcribe_answer_sheet(pdf_path)
+        print(response)
         res=self.parse_responses(response)
         return res
 
-        
+     
 
 # Example usage
 if __name__ == "__main__":
@@ -103,7 +104,7 @@ if __name__ == "__main__":
        # print(transcribed_text)
         #res=hand2text.parse_responses(transcribed_text)
        # print(res)
-        st=hand2text.evaluate("Document 5.pdf")
+        st=hand2text.evaluate("Questions.pdf")
         print(st)
 
     except Exception as e:

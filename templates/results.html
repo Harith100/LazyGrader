@@ -11,17 +11,26 @@
         <h1>Results</h1>
         <div class="results-grid">
             <div class="questions-container">
+                <h2>Questions</h2>
                 {% for question in question_text %}
                 <div class="question-item">
-                    <h2>{{ question }}</h2>
+                    <p>{{ question }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="answers-container">
+                <h2>Answers</h2>
+                {% for answer in answer_text %}
+                <div class="answer-item">
+                    <p>{{ answer }}</p>
                 </div>
                 {% endfor %}
             </div>
             <div class="scores-container">
-                {% for answer, score in scores.items() %}
-                <div class="answer-item">
-                    <h2>{{ answer }}</h2>
-                    <p>Score: {{ score }}/10</p>
+                <h2>Scores</h2>
+                {% for question, score in scores.items() %}
+                <div class="score-item">
+                    <p>{{ question }}: {{ score }}/10</p>
                 </div>
                 {% endfor %}
             </div>

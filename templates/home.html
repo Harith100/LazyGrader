@@ -11,12 +11,16 @@
         <h1>AI Exam Paper Correction</h1>
         <form action="{{ url_for('results') }}" method="post" enctype="multipart/form-data">
             <div class="upload-section">
-                <label for="question-paper">Upload Question Paper (PDF/Image):</label>
-                <input type="file" name="question-paper" id="question-paper" accept="application/pdf, image/*">
+                <label for="question-paper">Upload Question Paper (PDF):</label>
+                <input type="file" name="question-paper" id="question-paper" accept="application/pdf">
             </div>
             <div class="upload-section">
-                <label for="answer-papers">Upload Answer Papers (PDF/Image):</label>
-                <input type="file" name="answer-papers" id="answer-papers" accept="application/pdf, image/*" multiple>
+                <label for="answer-papers">Upload Answer Papers (PDF):</label>
+                <input type="file" name="answer-papers" id="answer-papers" accept="application/pdf">
+            </div>
+            <div class="upload-section">
+                <label for="answer-key">Upload Answer Key (PDF):</label>
+                <input type="file" name="answer-key" id="answer-key" accept="application/pdf">
             </div>
             <button type="submit" class="btn-submit">Submit for Analysis</button>
         </form>
