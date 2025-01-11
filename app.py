@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for, flash
 import os
 from handwrite import Hand2Text
 from Analyser import Analyser
@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 
 # Initialize Analyser
-analyser = Analyser(threshold=0.6)
+analyser = Analyser(threshold=0.55)
 
 # Initialize Hand2Text
 hand2text = Hand2Text()
@@ -14,7 +14,25 @@ hand2text = Hand2Text()
 # Ensure the upload folder exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        # Get Barcode ID and Subject ID from form input
+        barcode_id = request.form.get('barcode-id')
+        subject_id = request.form.get('subject-id')
+        
+        # Check if fields are empty
+        if not barcode_id or not subject_id:
+            flash('Both Barcode ID and Subject ID are required!', 'error')
+            return render_template('index.html')  # Render the form with error message
+        
+        # Redirect to home.html with the IDs passed as query parameters
+        return redirect(url_for('home'))
+    
+    # Render index.html on GET request
+    return render_template('index.html')
+
+@app.route('/home')
 def home():
     return render_template('home.html')
 
@@ -65,7 +83,6 @@ def results():
     answer_text=list(answer_dict.values()),
     key_dict=key_dict
     )
-
 
 if __name__ == '__main__':
     app.run(debug=True)
