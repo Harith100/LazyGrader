@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Exam Paper Correction - Index</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+            /* Text field styling */
+            input[type="text"] {
+                background-color: #000000; /* Black background */
+                color: #00ff00; /* Neon green text */
+                font-family: 'Courier New', Courier, monospace; /* Terminal-style font */
+                font-size: 16px;
+                border: 1px solid #00ff00; /* Green border */
+                border-radius: 5px;
+                padding: 10px;
+                width: 100%;
+                box-sizing: border-box; /* Ensure padding doesn't affect width */
+                outline: none; /* Remove default outline */
+                transition: all 0.3s ease; /* Smooth transitions for focus */
+            }
+
+            /* Hover effect */
+            input[type="text"]:hover {
+                background-color: #001a00; /* Slightly lighter black */
+                border-color: #00cc00; /* Slightly darker green */
+            }
+
+            /* Focus effect */
+            input[type="text"]:focus {
+                background-color: #002b00; /* Slightly brighter green-black */
+                border-color: #00ff00; /* Restore bright green border */
+                box-shadow: 0 0 8px #00ff00; /* Green glow effect */
+            }
+
+            /* Placeholder text */
+            input[type="text"]::placeholder {
+                color: #007f00; /* Dim green for placeholder */
+                font-style: italic; /* Differentiate placeholder text */
+            }
+
+            /* Submit button with matching style */
+            .btn-submit {
+                background-color: #000000; /* Black background */
+                color: #00ff00; /* Green text */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 16px;
+                border: 1px solid #00ff00;
+                border-radius: 5px;
+                padding: 10px 15px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            /* Submit button hover effect */
+            .btn-submit:hover {
+                background-color: #001a00; /* Slightly lighter black */
+                color: #00cc00; /* Slightly darker green */
+                box-shadow: 0 0 8px #00ff00; /* Green glow */
+            }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Exam Paper Correction</h1>
+        <form action="{{ url_for('home') }}" method="get">
+            <div class="form-section">
+                <label for="barcode-id">Barcode ID:</label>
+                <input type="text" name="barcode-id" id="barcode-id" placeholder="Enter Barcode ID" required>
+            </div>
+            <div class="form-section">
+                <label for="subject-id">Subject ID:</label>
+                <input type="text" name="subject-id" id="subject-id" placeholder="Enter Subject ID" required>
+            </div>
+            <button type="submit" class="btn-submit">Proceed to Upload</button>
+        </form>
+    </div>
+</body>
+</html>

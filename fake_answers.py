@@ -80,8 +80,8 @@ class Brain:
 if __name__ == "__main__":
     brain = Brain()
     #print("Start chatting with the AI (type 'bye' to end):")
-    
-    out=brain.operate("""Teacher Answer: "The digestive system breaks down food into nutrients that the body can use."
-Student Answer: "Food is broken into nutrients by the digestive system." """)
-    print(out)
+    for _ in range(4):
+        out=brain.operate("""Teacher Answer: "The digestive system breaks down food into nutrients that the body can use."
+    Student Answer: "Food is broken into nutrients by the digestive system." """)
+        print(out)
     

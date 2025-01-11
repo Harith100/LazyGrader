@@ -34,6 +34,14 @@
                 </div>
                 {% endfor %}
             </div>
+            <div class="key-container">
+                <h2>Answer Key</h2>
+                {% for key, value in key_dict.items() %}
+                <div class="key-item">
+                    <p>{{ key }}: {{ value }}</p>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </body>
