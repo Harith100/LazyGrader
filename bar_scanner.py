@@ -1,56 +1,45 @@
-import cv2
-from pyzbar.pyzbar import decode
+import pymysql
+import barcode
+from barcode.writer import ImageWriter
 
-class BarcodeScanner:
-    def __init__(self):
-        # Initialize the webcam (0 is the default webcam, change if needed)
-        self.cap = cv2.VideoCapture(0)
+# Function to fetch student data and generate barcode images
+def generate_barcode_for_all_students():
+    try:
+        # Connect to MySQL using pymysql
+        connection = pymysql.connect(
+            host='localhost',        # Your MySQL host (e.g., 'localhost')
+            database='university',   # Your database name
+            user='root',    # Your MySQL username
+            password='root' # Your MySQL password
+        )
 
-    def scan_barcode(self):
-        while True:
-            # Capture frame-by-frame
-            ret, frame = self.cap.read()
-            if not ret:
-                break
+        with connection.cursor() as cursor:
+            # Query to fetch all UniversityID and Barcode from the Answer_Sheets table
+            cursor.execute("""
+                SELECT University_ID, Barcode FROM Answer_Sheets
+            """)
+            students_data = cursor.fetchall()
 
-            # Decode the barcodes in the frame
-            barcodes = decode(frame)
+            # Iterate over each student and generate barcode image
+            for student in students_data:
+                university_id = student[0]
+                barcode_number = student[1]
+                
+                # Generate barcode using python-barcode
+                code128 = barcode.get_barcode_class('code128')
+                barcode_instance = code128(barcode_number, writer=ImageWriter())
 
-            for barcode in barcodes:
-                # Extract the barcode data
-                barcode_data = barcode.data.decode('utf-8')
-                barcode_type = barcode.type
+                # Save the barcode image as a PNG file
+                barcode_image_path = f"{university_id}_barcode.png"
+                barcode_instance.save(barcode_image_path)
 
-                # Print the barcode data and type
-                print(f"Barcode detected: {barcode_data} (Type: {barcode_type})")
+                print(f"Barcode for Student {university_id} saved as {barcode_image_path}")
 
-                # Draw a rectangle around the barcode
-                rect_points = barcode.polygon
-                if len(rect_points) == 4:
-                    pts = [tuple(point) for point in rect_points]
-                    cv2.polylines(frame, [np.array(pts, dtype=np.int32)], isClosed=True, color=(0, 255, 0), thickness=3)
+    except pymysql.MySQLError as e:
+        print(f"Error: {e}")
+    
+    finally:
+        connection.close()
 
-                # Display the barcode data on the screen
-                cv2.putText(frame, f"Data: {barcode_data}", (barcode.rect.left, barcode.rect.top - 10),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 0, 0), 2)
-
-                # Stop the camera after detecting the barcode
-                self.cap.release()
-                cv2.destroyAllWindows()
-                return barcode_data  # Return the barcode data and exit the method
-
-            # Display the resulting frame
-            cv2.imshow("Barcode Scanner", frame)
-
-            # Optionally, you can stop the program by pressing the 'q' key
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-
-        # Release the webcam and close all OpenCV windows if no barcode is found
-        self.cap.release()
-        cv2.destroyAllWindows()
-
-# Example usage
-scanner = BarcodeScanner()
-barcode_code = scanner.scan_barcode()
-print(f"Scanned Barcode Code: {barcode_code}")
+# Call the function to generate barcodes for all students
+generate_barcode_for_all_students()

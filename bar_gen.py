@@ -1,29 +1,96 @@
-#barcode generator
-import barcode
-from barcode.writer import ImageWriter
-from PIL import Image
+import random
+import string
+import pymysql
+#done
+# Class for handling barcode generation
+class BarcodeGenerator:
+    def __init__(self, barcode_length=12):
+        self.barcode_length = barcode_length
 
-# Function to generate barcode and return both the image and code
-def generate_barcode(code_data, filename):
-    # Use 'code128' format (or 'itf' for Interleaved 2 of 5)
-    barcode_format = barcode.get_barcode_class('code128')  # or 'itf' for interleaved 2 of 5
-    
-    # Create the barcode object
-    barcode_obj = barcode_format(code_data, writer=ImageWriter())
-    
-    # Save the barcode as an image
-    barcode_obj.save(filename)
-    
-    # Open the image using Pillow
-    img = Image.open(f"{filename}.png")
-    img.show()  # Display the barcode image
-    
-    # Return the barcode data (code)
-    return code_data
+    # Function to generate a unique barcode number
+    def generate_unique_barcode(self, barcode_number):
+        while True:
+            # Check if the barcode already exists
+            if not self.is_barcode_exist(barcode_number):
+                return barcode_number
+            else:
+                # Generate a new barcode if the current one already exists
+                barcode_number = self._generate_random_barcode()
 
-# Example usage
-barcode_data = "12345"  # 5-digit barcode data
-filename = "barcode_5digit"
+    # Function to generate a random barcode
+    def _generate_random_barcode(self):
+        return ''.join(random.choices(string.digits, k=self.barcode_length))
 
-generated_code = generate_barcode(barcode_data, filename)
-print("Generated Barcode Code:", generated_code)
+    # Function to check if the barcode exists in the database
+    def is_barcode_exist(self, barcode):
+        try:
+            # Connect to MySQL using pymysql
+            connection = pymysql.connect(
+                host='localhost',        # Your MySQL host (e.g., 'localhost')
+                database='university',   # Your database name
+                user='root',    # Your MySQL username
+                password='root' # Your MySQL password
+            )
+
+            with connection.cursor() as cursor:
+                # Query to check if the barcode exists in the Answer_Sheets table
+                query = "SELECT COUNT(*) FROM Answer_Sheets WHERE Barcode = %s"
+                cursor.execute(query, (barcode,))
+
+                # If barcode exists, return True, else return False
+                count = cursor.fetchone()[0]
+                return count > 0
+
+        except pymysql.MySQLError as e:
+            print(f"Error: {e}")
+            return True
+        finally:
+            connection.close()
+
+
+# Function to register a new student and generate a unique barcode
+def register_student(student_name, university_id, email, barcode_number=None):
+    try:
+        # Instantiate BarcodeGenerator class
+        barcode_generator = BarcodeGenerator()
+
+        # If barcode_number is provided, use that, else generate a new one
+        if barcode_number is None:
+            barcode_number = barcode_generator._generate_random_barcode()
+
+        # Generate a unique barcode using the provided or generated barcode number
+        barcode = barcode_generator.generate_unique_barcode(barcode_number)
+
+        # Connect to MySQL using pymysql
+        connection = pymysql.connect(
+            host='localhost',        # Your MySQL host (e.g., 'localhost')
+            database='university',   # Your database name
+            user='root',    # Your MySQL username
+            password='root' # Your MySQL password
+        )
+
+        with connection.cursor() as cursor:
+            # Insert the student data into the Students table
+            cursor.execute("""
+                INSERT INTO Students (University_ID, Name, Email)
+                VALUES (%s, %s, %s)
+            """, (university_id, student_name, email))
+
+            # Insert the barcode and university ID into the Answer_Sheets table
+            cursor.execute("""
+                INSERT INTO Answer_Sheets (Barcode, University_ID)
+                VALUES (%s, %s)
+            """, (barcode, university_id))
+
+            # Commit the transaction
+            connection.commit()
+
+            print(f"Student {student_name} registered successfully with Barcode: {barcode}")
+
+    except pymysql.MySQLError as e:
+        print(f"Error: {e}")
+    
+    finally:
+        connection.close()
+
+register_student('Harith Hussain', '12121', 'harithhus123@gmail.com')
