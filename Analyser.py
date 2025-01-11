@@ -30,9 +30,9 @@ class Analyser():
         # Normalized similarity
         normalized_similarity = student_teacher_sim / (1 + max_fake_similarity)
 
-        print(f"Student-Teacher Similarity: {student_teacher_sim:.4f}")
-        print(f"Max Fake Similarity: {max_fake_similarity:.4f}")
-        print(f"Normalized Similarity: {normalized_similarity:.4f}")
+        # print(f"Student-Teacher Similarity: {student_teacher_sim:.4f}")
+        # print(f"Max Fake Similarity: {max_fake_similarity:.4f}")
+        # print(f"Normalized Similarity: {normalized_similarity:.4f}")
         return student_teacher_sim
 
 if __name__ == "__main__":

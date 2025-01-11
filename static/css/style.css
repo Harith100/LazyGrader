@@ -2,26 +2,27 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    background: linear-gradient(135deg, #000000, #111111); /* Shiny black background */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    color: #333;
+    color: #00ff00; /* Terminal green text color */
 }
 
 .container {
-    background: #6d6f6f;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background: #222222; /* Slightly lighter black for contrast */
+    box-shadow: 0 4px 20px rgba(0, 255, 0, 0.2); /* Green glow */
     border-radius: 10px;
     padding: 20px;
     width: 90%;
     max-width: 800px;
     text-align: center;
+    color: #00ff00; /* Terminal green text color */
 }
 
 h1 {
-    color: #555;
+    color: #00ff00; /* Terminal green */
     margin-bottom: 20px;
 }
 
@@ -33,34 +34,36 @@ h1 {
 }
 
 .questions-container, .scores-container {
-    background: #f9f9f9;
-    border: 1px solid #ddd;
+    background: #111111; /* Darker black for sections */
+    border: 1px solid #00ff00; /* Terminal green border */
     border-radius: 5px;
     padding: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 255, 0, 0.2); /* Green glow */
     max-height: 500px;
     overflow-y: auto;
+    color: #00ff00; /* Terminal green */
 }
 
 .question-item, .answer-item {
-    background: #ffffff;
-    border: 1px solid #ddd;
+    background: #1a1a1a; /* Slightly lighter black */
+    border: 1px solid #00ff00; /* Terminal green border */
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 255, 0, 0.2); /* Green glow */
     text-align: left;
+    color: #00ff00; /* Terminal green */
 }
 
 .question-item h2, .answer-item h2 {
     font-size: 18px;
-    color: #444;
+    color: #00ff00; /* Terminal green */
     margin: 0;
 }
 
 .answer-item p {
     font-size: 16px;
-    color: #555;
+    color: #00ff00; /* Terminal green */
     margin: 5px 0 0;
 }
 
@@ -69,17 +72,17 @@ h1 {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #cccccc;
+    background: #00ff00; /* Terminal green scrollbar */
     border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #aaaaaa;
+    background: #00cc00; /* Slightly darker green on hover */
 }
 
 .btn-submit {
-    background: #007bff;
-    color: #ffffff;
+    background: #00ff00; /* Terminal green button */
+    color: #000000; /* Black text for contrast */
     border: none;
     padding: 10px 15px;
     border-radius: 5px;
@@ -89,5 +92,49 @@ h1 {
 }
 
 .btn-submit:hover {
-    background: #0056b3;
+    background: #00cc00; /* Slightly darker green on hover */
+}
+
+.upload-section label {
+    display: block;
+    font-size: 16px;
+    color: #00ff00; /* Terminal green */
+    margin-bottom: 8px;
+}
+
+.upload-section input[type="file"] {
+    display: inline-block;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    color: #ffffff; /* White text */
+    background-color: #000000; /* Black background */
+    border: 2px solid #00ff00; /* Terminal green border */
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.upload-section input[type="file"]::file-selector-button {
+    color: #ffffff; /* White text for the button */
+    background-color: #000000; /* Black background */
+    border: 2px solid #00ff00; /* Terminal green border */
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.upload-section input[type="file"]::file-selector-button:hover {
+    background-color: #222222; /* Slightly lighter black */
+    border-color: #00cc00; /* Slightly darker green on hover */
+}
+
+.upload-section input[type="file"]:hover {
+    border-color: #00cc00; /* Slightly darker green border on hover */
+}
+
+.upload-section {
+    margin-bottom: 20px;
 }

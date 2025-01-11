@@ -5,6 +5,12 @@ from Analyser import Analyser
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 
+# Initialize Analyser
+analyser = Analyser()
+
+# Initialize Hand2Text
+hand2text = Hand2Text()
+
 # Ensure the upload folder exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
@@ -32,8 +38,6 @@ def results():
     answer_key_path = os.path.join(app.config['UPLOAD_FOLDER'], answer_key.filename)
     answer_key.save(answer_key_path)
 
-    # Initialize Hand2Text
-    hand2text = Hand2Text()
 
     # Extract question and answers as dictionaries
     try:
@@ -47,8 +51,11 @@ def results():
     print("Answer_Dict:", answer_dict)
     print("Key_Dict:", key_dict)
 
+
+    scores = {key:analyser(question_dict[key], answer_dict[key]) for key in question_dict.keys()}
+    print(scores)
     # Dummy scoring for now
-    scores = {key: 10 for key in question_dict.keys()}  # Replace with your scoring logic
+    # scores = {key: 10 for key in question_dict.keys()}  # Replace with your scoring logic
 
     # Render results
     return render_template(
