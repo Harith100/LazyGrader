@@ -14,9 +14,9 @@ def generate_barcode_for_all_students():
         )
 
         with connection.cursor() as cursor:
-            # Query to fetch all UniversityID and Barcode from the Answer_Sheets table
+            # Query to fetch all UniversityID and Barcode from the Barcode table
             cursor.execute("""
-                SELECT University_ID, Barcode FROM Answer_Sheets
+                SELECT UniversityID, BarcodeID FROM Barcode
             """)
             students_data = cursor.fetchall()
 

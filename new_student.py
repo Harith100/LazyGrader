@@ -1,7 +1,7 @@
 import random
 import string
 import pymysql
-#done
+
 # Class for handling barcode generation
 class BarcodeGenerator:
     def __init__(self, barcode_length=12):
@@ -21,7 +21,7 @@ class BarcodeGenerator:
     def _generate_random_barcode(self):
         return ''.join(random.choices(string.digits, k=self.barcode_length))
 
-    # Function to check if the barcode exists in the database
+    # Function to check if the barcode exists in the Barcode table
     def is_barcode_exist(self, barcode):
         try:
             # Connect to MySQL using pymysql
@@ -33,8 +33,8 @@ class BarcodeGenerator:
             )
 
             with connection.cursor() as cursor:
-                # Query to check if the barcode exists in the Answer_Sheets table
-                query = "SELECT COUNT(*) FROM Answer_Sheets WHERE Barcode = %s"
+                # Query to check if the barcode exists in the Barcode table
+                query = "SELECT COUNT(*) FROM Barcode WHERE BarcodeID = %s"
                 cursor.execute(query, (barcode,))
 
                 # If barcode exists, return True, else return False
@@ -72,15 +72,15 @@ def register_student(student_name, university_id, email, barcode_number=None):
         with connection.cursor() as cursor:
             # Insert the student data into the Students table
             cursor.execute("""
-                INSERT INTO Students (University_ID, Name, Email)
+                INSERT INTO Students (UniversityID, Name, Email)
                 VALUES (%s, %s, %s)
             """, (university_id, student_name, email))
 
-            # Insert the barcode and university ID into the Answer_Sheets table
+            # Insert the barcode and university ID into the Barcode table
             cursor.execute("""
-                INSERT INTO Answer_Sheets (Barcode, University_ID)
+                INSERT INTO Barcode (UniversityID, BarcodeID)
                 VALUES (%s, %s)
-            """, (barcode, university_id))
+            """, (university_id, barcode))
 
             # Commit the transaction
             connection.commit()
@@ -93,4 +93,7 @@ def register_student(student_name, university_id, email, barcode_number=None):
     finally:
         connection.close()
 
+
+# Call the register_student function
 register_student('Harith Hussain', '12121', 'harithhus123@gmail.com')
+
