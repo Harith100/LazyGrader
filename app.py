@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
 from PyPDF2 import PdfReader
+from handwrite import Hand2Text
+from Analyser import Analyser
 
 app = Flask(__name__)
 
@@ -9,19 +11,6 @@ UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-
-def extract_text_from_pdf(file_path):
-    """
-    Extract text from a PDF file using PyPDF2.
-    """
-    text = ""
-    try:
-        reader = PdfReader(file_path)
-        for page in reader.pages:
-            text += page.extract_text()
-    except Exception as e:
-        print(f"Error reading {file_path}: {e}")
-    return text
 
 
 @app.route('/')
@@ -42,18 +31,32 @@ def results():
     question_paper_path = os.path.join(app.config['UPLOAD_FOLDER'], question_paper.filename)
     question_paper.save(question_paper_path)
 
-    answer_paper_texts = []
+    answer_paper_paths = []
     for answer_paper in answer_papers:
         answer_paper_path = os.path.join(app.config['UPLOAD_FOLDER'], answer_paper.filename)
         answer_paper.save(answer_paper_path)
-        # Extract text from answer papers
-        answer_paper_text = extract_text_from_pdf(answer_paper_path)
-        answer_paper_texts.append(answer_paper_text)
+        answer_paper_paths.append(answer_paper_path)
 
-    # Extract text from question paper
-    question_text = extract_text_from_pdf(question_paper_path)
+    # Initialize Hand2Text
+    hand2text = Hand2Text()
 
+    # Extract question and answers as dictionaries
+    try:
+        question_dict = hand2text.evaluate(question_paper_path)
+    except Exception as e:
+        return f"Failed to process question paper: {e}"
+
+    
+    try:
+        answer_dict = hand2text.evaluate(answer_paper_path)
+    except Exception as e:
+        return f"Failed to process an answer sheet: {e}"    
     # For now, dummy scoring for each question
+    
+    print("Question_Dict:", question_dict)
+    print("Answer_Dict:", answer_dict)
+    
+    
     dummy_scores = {
         "Question 1": 8,
         "Question 2": 6,
@@ -61,8 +64,9 @@ def results():
         "Question 4": 10,
     }
 
+    
     # Render results
-    return render_template('results.html', scores=dummy_scores, question_text=question_text, answer_texts=answer_paper_texts)
+    return render_template('results.html', scores=dummy_scores, question_text=question_dict, answer_texts=answer_dict)
 
 
 if __name__ == '__main__':

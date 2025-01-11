@@ -1,15 +1,19 @@
 from sentence_transformers import SentenceTransformer, util
-
+from fake_answers import Brain
 class Analyser():
     def __init__(self):
         self.model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+        self.brain = Brain()
         
     def __call__(self, student_answer:str, teacher_answer:str):
-        fake_answers = [
-            "Photosynthesis occurs only at night.",
-            "Plants grow in darkness without sunlight.",
-            "Photosynthesis is a type of chemical reaction underwater."
-        ]
+        
+        fake_answers = self.brain.operate(f'Teacher Answer: "{teacher_answer}"\nStudent Answer: {student_answer}')[:5]
+        print(fake_answers)
+        # fake_answers = [
+        #     "Photosynthesis occurs only at night.",
+        #     "Plants grow in darkness without sunlight.",
+        #     "Photosynthesis is a type of chemical reaction underwater."
+        # ]
 
         # Generate embeddings
         teacher_embedding = self.model.encode(teacher_answer, convert_to_tensor=True)
@@ -19,7 +23,7 @@ class Analyser():
         # Calculate cosine similarities
         student_teacher_sim = util.cos_sim(student_embedding, teacher_embedding).item()
         fake_similarities = [util.cos_sim(student_embedding, fake).item() for fake in fake_embeddings]
-
+        print(fake_similarities)
         # Aggregate fake similarity (max or average)
         max_fake_similarity = max(fake_similarities)
 

@@ -6,7 +6,7 @@ import re
 class Hand2Text:
     def __init__(self):
         
-        genai.configure(api_key='')
+        genai.configure(api_key='AIzaSyB_Gd-cLHlByZ3ErhuCaCUfZQDwu8KG9PA')
         self.generation_config = {
             "temperature": 1,
             "top_p": 0.95,
