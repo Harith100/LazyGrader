@@ -1,13 +1,12 @@
 import os
 import time
 import google.generativeai as genai
+import re
 
 class Hand2Text:
-    def __init__(self, api_key_env_var="GEMINI_API_KEY"):
-        """Initialize the Hand2Text class with Gemini API key."""
-        if api_key_env_var not in os.environ:
-            raise ValueError(f"Environment variable '{api_key_env_var}' not found.")
-        genai.configure(api_key=os.environ[api_key_env_var])
+    def __init__(self):
+        
+        genai.configure(api_key='')
         self.generation_config = {
             "temperature": 1,
             "top_p": 0.95,
@@ -42,6 +41,8 @@ class Hand2Text:
         print("...all files ready")
         print()
 
+    
+
     def transcribe_answer_sheet(self, pdf_path):
         """Uploads a PDF, waits for processing, and transcribes it into text."""
         # Upload the file
@@ -57,8 +58,18 @@ class Hand2Text:
                     "role": "user",
                     "parts": [
                         file,
-                        "Transcribe the answer sheets into text, provide text only. Make sure question numbers are there in the text.",
-                    ],
+                        """
+                        You are an AI designed to transcribe and format examination answer sheets. Your task is to extract answers from a student's response and provide them in a structured format. Follow these guidelines:
+
+                        Structure each answer starting with the question number, followed by the answer, like this:
+                        Ensure the numbering is sequential and accurate.
+                        Avoid unnecessary introductory text like: "Here is the text:" ,"This is the answer:".
+                        Any greetings, acknowledgments, or unrelated information.
+                        Preserve the formatting of the content exactly as provided, without adding any extra words or phrases.
+                        Ensure each question's number and answer are clearly separated. Do not merge answers into a single paragraph.
+                        Do not include any additional explanations or comments unrelated to the answers. Only provide clean, structured text as described above.
+                            """,
+                            ],
                 },
             ]
         )
@@ -67,13 +78,33 @@ class Hand2Text:
         response = chat_session.send_message("Start transcription.")
 
         return response.text
+    
+    def parse_responses(self,response):
+        
+        pattern = r"(\d+)\)\s*(.+?)(?=\n\d+\)|$)"
+        matches = re.findall(pattern, response, re.DOTALL)
+        result = {int(num): answer.strip() for num, answer in matches}
+
+        return result
+    
+    def evaluate(self, pdf_path):
+        response=self.transcribe_answer_sheet(pdf_path)
+        res=self.parse_responses(response)
+        return res
+
+        
 
 # Example usage
 if __name__ == "__main__":
     try:
         hand2text = Hand2Text()
-        transcribed_text = hand2text.transcribe_answer_sheet("Document 5.pdf")
-        print("Transcribed Text:")
-        print(transcribed_text)
+        #transcribed_text = hand2text.transcribe_answer_sheet("Document 5.pdf")
+        
+       # print(transcribed_text)
+        #res=hand2text.parse_responses(transcribed_text)
+       # print(res)
+        st=hand2text.evaluate("Document 5.pdf")
+        print(st)
+
     except Exception as e:
         print(f"An error occurred: {e}")
