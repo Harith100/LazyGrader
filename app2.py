@@ -2,10 +2,13 @@ from flask import Flask, request, render_template, redirect, url_for, flash
 import os
 from handwrite import Hand2Text
 from Analyser import Analyser
-from blackmail import mailresult
+from blackmail2 import mailresult
 from werkzeug.utils import secure_filename
 from pyzbar.pyzbar import decode
 from PIL import Image
+from CsVV import UniversityDataExporter
+from insertsql import insert_to_ai
+
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 
@@ -141,14 +144,29 @@ def results():
 def send_email():
     global scores
     
+    DB_HOST = 'localhost'
+    DB_USER = 'root'  # Replace with your MySQL username
+    DB_PASSWORD = 'root'  # Replace with your MySQL password
+    DB_NAME = 'university'
+
+    # CSV file path
+    OUTPUT_CSV = 'students_data.csv'
+
     data_sql = {"barcode":barcode_id, 
                 "Q1_Marks":scores[1],
                 "Q2_Marks":scores[2],
                 "Q3_Marks":scores[3],
                 "Q4_Marks":scores[4]
                 }
+
+    insert_to_ai(data_sql)
+
+    # Create an instance of the UniversityDataExporter class
+    data_exporter = UniversityDataExporter(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, OUTPUT_CSV)
+    # Fetch data and export it to CSV
+    data_exporter.fetch_and_export_data()
     
-    email_content = mail.process_csv_and_send_emails(csv_file, scores[1], scores[2], scores[3], scores[4])
+    email_content = mail.process_csv_and_send_emails(csv_file)
     
     return render_template("email_sent.html", email_content=email_content)
 
