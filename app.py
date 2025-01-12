@@ -98,8 +98,16 @@ def results():
 @app.route('/send_email', methods=['POST'])
 def send_email():
     global scores
-    email_content = mail.process_csv_and_send_emails(csv_file, scores[1], scores[2], scores[3], scores[4])
-
+    
+    data_sql = {"barcode":barcode_id, 
+                "Q1_Marks":scores[1],
+                "Q2_Marks":scores[2],
+                "Q3_Marks":scores[3],
+                "Q4_Marks":scores[4]
+                }
+    
+    # email_content = mail.process_csv_and_send_emails(csv_file, scores[1], scores[2], scores[3], scores[4])
+    
     return render_template("email_sent.html", email_content=email_content)
 
 if __name__ == '__main__':
