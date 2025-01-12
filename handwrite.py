@@ -104,7 +104,7 @@ if __name__ == "__main__":
        # print(transcribed_text)
         #res=hand2text.parse_responses(transcribed_text)
        # print(res)
-        st=hand2text.evaluate("Computer_Basics_answer.pdf")
+        st=hand2text.evaluate("Questions_Hackathon.pdf")
         print(st)
 
     except Exception as e:
