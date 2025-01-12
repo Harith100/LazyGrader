@@ -73,8 +73,11 @@ class Brain:
         quoted_strings = re.findall(r'"([^"]+)"', response)
         return quoted_strings
     def operate(self,message):
+        # print("before generation")
         msg=self.generate(message)
+        # print("before extract")
         li=self.extract(msg)
+        # print("after extract")
         return li
 # Continuous Chat Loop with Memory
 if __name__ == "__main__":

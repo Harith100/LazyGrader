@@ -28,18 +28,18 @@ class mailresult:
         server.quit()
 
 # Function to process the CSV and send emails
-    def process_csv_and_send_emails(self,csv_file):
+    def process_csv_and_send_emails(self,csv_file, mark1,mark2,mark3,mark4):
         with open(csv_file, mode='r') as file:
             csv_reader = csv.DictReader(file)
             for row in csv_reader:
             # Get student's name, email, marks, subject details
                 name = row['Name']
                 email = row['Email']
-                total_marks = row['Total']
-                q1_marks = row['Q1_Marks']
-                q2_marks = row['Q2_Marks']
-                q3_marks = row['Q3_Marks']
-                q4_marks = row['Q4_Marks']
+                total_marks = mark1+mark2+mark3+mark4
+                q1_marks = mark1
+                q2_marks = mark2
+                q3_marks = mark3
+                q4_marks = mark4
                 subject_id = row['SubjectID']
                 subject_name = row['SubjectName']
             
@@ -52,8 +52,9 @@ class mailresult:
             # Send the email
                 self.send_email(email, subject, body)
                 print(f"Email sent to {name} ({email})")
+        return f"{subject}\n{body}"
 
 # Example usage
-mail=mailresult()
-csv_file = r'students_data.csv'  # Update with the actual CSV file path
-mail.process_csv_and_send_emails(csv_file)
+# mail=mailresult()
+# csv_file = r'students_data.csv'  # Update with the actual CSV file path
+# mail.process_csv_and_send_emails(csv_file)

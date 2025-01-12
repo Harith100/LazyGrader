@@ -80,3 +80,9 @@ print(f"Normalized Similarity: {normalized_similarity:.4f}")
 # print("Input 1:", extract_sentences_or_questions(input1))
 # print("Input 2:", extract_sentences_or_questions(input2))
 # print("Input 3:", extract_sentences_or_questions(input3))
+
+# fake_answers = [
+        #     "Photosynthesis occurs only at night.",
+        #     "Plants grow in darkness without sunlight.",
+        #     "Photosynthesis is a type of chemical reaction underwater."
+# ]

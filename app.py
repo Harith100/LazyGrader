@@ -2,11 +2,19 @@ from flask import Flask, request, render_template, redirect, url_for, flash
 import os
 from handwrite import Hand2Text
 from Analyser import Analyser
+from blackmail import mailresult
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 
+barcode_id = None
+subject_id = None
+scores = None
+
 # Initialize Analyser
 analyser = Analyser(threshold=0.55)
+
+csv_file = r'students_data.csv'
+mail = mailresult()
 
 # Initialize Hand2Text
 hand2text = Hand2Text()
@@ -16,6 +24,7 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    global barcode_id, subject_id
     if request.method == 'POST':
         # Get Barcode ID and Subject ID from form input
         barcode_id = request.form.get('barcode-id')
@@ -38,6 +47,7 @@ def home():
 
 @app.route('/results', methods=['POST'])
 def results():
+    global scores
     # Handle file uploads
     question_paper = request.files.get('question-paper')
     answer_papers = request.files.get('answer-papers')
@@ -71,11 +81,12 @@ def results():
 
 
     scores = {key:analyser(question_dict[key], answer_dict[key]) for key in question_dict.keys()}
-    print(scores)
+    # print(scores)
     # Dummy scoring for now
     # scores = {key: 10 for key in question_dict.keys()}  # Replace with your scoring logic
 
-    # Render results
+    # Render result
+    
     return render_template(
     'results.html',
     scores=scores,
@@ -83,6 +94,13 @@ def results():
     answer_text=list(answer_dict.values()),
     key_dict=key_dict
     )
+    
+@app.route('/send_email', methods=['POST'])
+def send_email():
+    global scores
+    email_content = mail.process_csv_and_send_emails(csv_file, scores[1], scores[2], scores[3], scores[4])
+
+    return render_template("email_sent.html", email_content=email_content)
 
 if __name__ == '__main__':
     app.run(debug=True)

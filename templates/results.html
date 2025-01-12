@@ -5,6 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Analysis Results</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 20px;
+            margin: 20px 0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .email-button-container {
+            grid-column: 1 / -1; /* Spans across all columns */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .btn-email {
+            background-color: #000000; /* Black background */
+            color: #00ff00; /* Green text */
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-email:hover {
+            background-color: #001a00; /* Slightly lighter black */
+            color: #00cc00; /* Slightly darker green */
+            box-shadow: 0 0 8px #00ff00; /* Green glow */
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -41,6 +79,13 @@
                     <p>{{ key }}: {{ value }}</p>
                 </div>
                 {% endfor %}
+            </div>
+            <!-- Button to compose email -->
+            <div class="email-button-container">
+                <form action="{{ url_for('send_email') }}" method="post">
+                    <input type="hidden" name="barcode_id" value="{{ barcode_id }}">
+                    <button type="submit" class="btn-email">Compose Email to User</button>
+                </form>
             </div>
         </div>
     </div>

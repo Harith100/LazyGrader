@@ -12,13 +12,10 @@ class Analyser():
         
     def __call__(self, student_answer:str, teacher_answer:str, Question_score:int=3):
         
-        fake_answers = self.brain.operate(f'Teacher Answer: "{teacher_answer}"\nStudent Answer: {student_answer}')[:5]
-        print(fake_answers)
-        # fake_answers = [
-        #     "Photosynthesis occurs only at night.",
-        #     "Plants grow in darkness without sunlight.",
-        #     "Photosynthesis is a type of chemical reaction underwater."
-        # ]
+        fake_answers = []
+        while fake_answers==[]:
+            fake_answers = self.brain.operate(f'Teacher Answer: "{teacher_answer}"\nStudent Answer: {student_answer}')[:5]
+        # print(fake_answers)
 
         # Generate embeddings
         teacher_embedding = self.model.encode(teacher_answer, convert_to_tensor=True)

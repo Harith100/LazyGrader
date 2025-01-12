@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Sent</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #0d1117; /* Dark background for terminal-like style */
+            color: #c9d1d9; /* Light gray text for readability */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #161b22; /* Slightly lighter than the background */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 1px solid #30363d; /* Border to emphasize the container */
+        }
+
+        h1 {
+            color: #58a6ff; /* Bright blue for the title */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .email-content {
+            background-color: #21262d; /* A darker section background */
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #30363d; /* Subtle border */
+        }
+
+        .email-content pre {
+            white-space: pre-wrap; /* Allow wrapping for long text */
+            word-wrap: break-word; /* Break long words */
+            font-family: 'Courier New', Courier, monospace; /* Monospace for code-like style */
+            color: #b9d978; /* Light green for email content */
+            font-size: 14px;
+        }
+
+        .back-button {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            background-color: #238636; /* Green button */
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #2ea043; /* Slightly lighter green */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Email Sent Successfully!</h1>
+        <div class="email-content">
+            <h2>Email Content:</h2>
+            <pre>{{ email_content }}</pre>
+        </div>
+        <div class="back-button">
+            <a href="{{ url_for('index') }}" class="btn">Go Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>
