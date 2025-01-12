@@ -8,7 +8,7 @@ from pyzbar.pyzbar import decode
 from PIL import Image
 from CsVV import UniversityDataExporter
 from insertsql import insert_to_ai
-
+from Scan_code import scan_barcode_from_image
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 
@@ -50,27 +50,21 @@ def index():
 
     if request.method == 'POST':
         # Handle image file upload
-        if 'barcode-image' in request.files:
-            file = request.files['barcode-image']
+        # file = request.files['barcode-image']
+        # # Save the file securely
+        # filename = secure_filename(file.filename)
+        # file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        # file.save(file_path)
 
-            if file and file.filename != '':
-                # Save the file
-                filename = secure_filename(file.filename)
-                file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                file.save(file_path)
-
-                # Decode the barcode
-                barcode_data = decode_barcode(file_path)
-                if barcode_data:
-                    barcode_id = barcode_data
-                    flash(f'Barcode decoded successfully: {barcode_id}', 'success')
-                else:
-                    flash('No barcode detected in the uploaded image!', 'error')
-                    return render_template('index2.html')
-
-            else:
-                flash('Please upload a valid barcode image!', 'error')
-                return render_template('index2.html')
+        # Decode the barcode using the updated function
+        barcode_data = scan_barcode_from_image("12121_barcode.png.png")
+        if barcode_data:
+            barcode_id = barcode_data
+            print("Barcode:", barcode_id)
+            flash(f'Barcode decoded successfully: {barcode_id}', 'success')
+        else:
+            flash('No barcode detected in the uploaded image!', 'error')
+            return render_template('index2.html')
 
         # Get Subject ID
         subject_id = request.form.get('subject-id')
@@ -80,10 +74,10 @@ def index():
             flash('Subject ID is required!', 'error')
             return render_template('index2.html')
 
-        # Redirect to home page
+        # Redirect to the home page
         return redirect(url_for('home'))
 
-    # Render index.html on GET request
+    # Render index2.html on GET request
     return render_template('index2.html')
 
 @app.route('/home')
@@ -142,8 +136,8 @@ def results():
     
 @app.route('/send_email', methods=['POST'])
 def send_email():
-    global scores
-    
+    global scores, barcode_id
+    print(barcode_id)
     DB_HOST = 'localhost'
     DB_USER = 'root'  # Replace with your MySQL username
     DB_PASSWORD = 'root'  # Replace with your MySQL password
