@@ -106,7 +106,7 @@ def send_email():
                 "Q4_Marks":scores[4]
                 }
     
-    # email_content = mail.process_csv_and_send_emails(csv_file, scores[1], scores[2], scores[3], scores[4])
+    email_content = mail.process_csv_and_send_emails(csv_file, scores[1], scores[2], scores[3], scores[4])
     
     return render_template("email_sent.html", email_content=email_content)
 

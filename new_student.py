@@ -95,5 +95,5 @@ def register_student(student_name, university_id, email, barcode_number=None):
 
 
 # Call the register_student function
-register_student('Harith Hussain', '12121', 'harithhus123@gmail.com')
+register_student('Rohit Francis', '78978', 'francisrohit200@gmail.com')
 
