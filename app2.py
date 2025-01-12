@@ -152,7 +152,8 @@ def send_email():
     # CSV file path
     OUTPUT_CSV = 'students_data.csv'
 
-    data_sql = {"barcode":barcode_id, 
+    data_sql = {"barcode":barcode_id,
+                "subject_id":"AIT301", 
                 "Q1_Marks":scores[1],
                 "Q2_Marks":scores[2],
                 "Q3_Marks":scores[3],
