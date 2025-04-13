@@ -52,5 +52,16 @@ git clone https://github.com/Harith100/LazyGrader.git
 cd LazyGrader
 pip install -r requirements.txt
 
+```
+
+## To Run This :
+```bash
+ python app.py
+```
+
+## (Optional) If Errors Occur:
+```bash
+python app2.py
+```
 
 
