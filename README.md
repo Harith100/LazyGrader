@@ -1,14 +1,20 @@
 # 💤 Lazy Grader
 
-**Lazy Grader** is an AI-powered exam evaluation system designed to automate and simplify the grading process. By inputting the question paper, answer key, and scanned student answer sheets, the system evaluates scores using advanced AI techniques.
+**Lazy Grader** is an AI-powered exam evaluation system that automates grading by combining handwriting recognition, NLP, and a web-based dashboard. Just provide the question paper, answer key, and scanned student answer sheets — the system handles everything from evaluation to score distribution!
+
+---
 
 ## 🚀 Features
 
 - ✍️ **Handwriting to Text Conversion** using **Gemini VLM**
-- 🧠 **AI-Based Answer Evaluation** leveraging **Cosine Similarity**
+- 🧠 **AI-Based Evaluation** with **Cosine Similarity**
+- 🖥️ **Flask Web UI** to Display Student Marks
+- ✉️ **Automated Email Reports** (Per-Question Scores Sent to Students)
+- 🗃️ **Student Management** via Unique IDs using **MySQL Database**
 - 📄 Accepts **Scanned Handwritten Answer Sheets**
-- 📊 Generates **Detailed Score Reports Automatically**
-- 🛠️ Customizable for various subjects and formats
+- 📊 Generates **Score Reports Automatically**
+
+---
 
 ## 🧠 How It Works
 
@@ -18,18 +24,26 @@
    - Scanned Answer Sheets (Handwritten)
 
 2. **Processing**:
-   - Converts handwriting to digital text using Gemini VLM.
-   - Compares textual answers with the key using Cosine Similarity.
-   - Computes scores based on similarity metrics.
+   - Handwriting is digitized using Gemini VLM.
+   - Text is compared with the answer key using Cosine Similarity.
+   - Scores are calculated question-wise.
 
 3. **Output**:
-   - Detailed score sheets for each student.
+   - Student scores shown via Flask web dashboard.
+   - Detailed marks sent to students via email.
+
+---
 
 ## 🛠️ Tech Stack
 
 - **Language Model**: Gemini VLM
+- **Backend**: Python
+- **Web Framework**: Flask
+- **Database**: MySQL
 - **Similarity Evaluation**: Cosine Similarity (using NLP embeddings)
-- **Frameworks/Libraries**: *[Specify libraries like NumPy, OpenCV, TensorFlow, etc., if used]*
+- **Email Automation**: Python `smtplib` / `email` libraries (or equivalent)
+
+---
 
 ## 📦 Installation
 
@@ -37,3 +51,6 @@
 git clone https://github.com/Harith100/LazyGrader.git
 cd LazyGrader
 pip install -r requirements.txt
+
+
+
