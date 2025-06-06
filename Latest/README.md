@@ -1,17 +1,3 @@
-# Restaurant Menu Page - Next.js Project
-
-This is a beautiful and interactive restaurant menu page built with Next.js and Tailwind CSS.
-
-## Features
-
-- 🎨 Beautiful and modern UI design
-- 🔍 Search functionality for menu items
-- 🏷️ Category filtering
-- ❤️ Favorites system
-- 🛒 Shopping cart functionality
-- 📱 Fully responsive design
-- ✨ Interactive animations with Framer Motion
-
 ## No-npx Setup Guide
 
 Since you're having issues with npx, here's a complete setup guide using only npm commands:
@@ -55,7 +41,7 @@ Visit http://localhost:3000 in your browser to see your restaurant menu page!
 ## Project Structure
 
 ```
-restaurant-app/
+Latest/
 ├── app/
 │   ├── globals.css     # Global CSS styles with Tailwind
 │   ├── layout.js       # Root layout for the app
