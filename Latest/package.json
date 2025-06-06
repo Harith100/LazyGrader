@@ -1,0 +1,26 @@
+{
+  "name": "restaurant-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "setup-tailwind": "node setup-tailwind.js"
+  },
+  "dependencies": {
+    "@headlessui/react": "^1.7.17",
+    "framer-motion": "^10.16.4",
+    "lucide-react": "^0.507.0",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-icons": "^4.11.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.3"
+  }
+}

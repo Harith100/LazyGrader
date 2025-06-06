@@ -1,2 +1,5 @@
-env
-setup.ipynb
+Latest/__pycache__
+Latest/.next
+Latest/data
+Latest/node_modules
+Latest/lazygraderenv
