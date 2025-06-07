@@ -3,3 +3,5 @@ Latest/.next
 Latest/data
 Latest/node_modules
 Latest/lazygraderenv
+env
+__pycache__
