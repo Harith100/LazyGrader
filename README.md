@@ -1,4 +1,6 @@
-[![Watch the video](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=ZSCv6H9bHL0)
+Here is the demo video of LazyGrader
+
+[![Watch the video](https://img.youtube.com/vi/ZSCv6H9bHL0/0.jpg)](https://www.youtube.com/watch?v=ZSCv6H9bHL0)
 
 # 💤 Lazy Grader
 
