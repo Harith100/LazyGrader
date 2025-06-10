@@ -1,4 +1,4 @@
-[![Demo](assets/thumbnail.png)](assets/demo.mp4)
+[![Watch the video](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=ZSCv6H9bHL0)
 
 # 💤 Lazy Grader
 
