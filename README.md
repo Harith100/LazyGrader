@@ -1,3 +1,5 @@
+[![Demo](assets/thumbnail.png)](assets/demo.mp4)
+
 # 💤 Lazy Grader
 
 **Lazy Grader** is an AI-powered exam evaluation system that automates grading by combining handwriting recognition, NLP, and a web-based dashboard. Just provide the question paper, answer key, and scanned student answer sheets — the system handles everything from evaluation to score distribution!
