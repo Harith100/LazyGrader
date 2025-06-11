@@ -4,7 +4,9 @@ Here is the demo video of LazyGrader
 
 # 💤 Lazy Grader
 
-**Lazy Grader** is an AI-powered exam evaluation system that automates grading by combining handwriting recognition, NLP, and a web-based dashboard. Just provide the question paper, answer key, and scanned student answer sheets — the system handles everything from evaluation to score distribution!
+**Lazy Grader** is an AI-powered exam evaluation tool that assists grading by combining handwriting recognition, NLP, and a web-based dashboard. Just provide the question paper, answer key, and scanned student answer sheets — the system handles everything from evaluation to score distribution!.
+
+This does not use LLM for correction, because of hallucinations instead a simple equation exploits the embeddings to provide good correction in a hallucination free way.
 
 ---
 
@@ -29,11 +31,11 @@ Here is the demo video of LazyGrader
 
 2. **Processing**:
    - Handwriting is digitized using Gemini VLM.
-   - Text is compared with the answer key using Cosine Similarity.
+   - Text is compared with the answer key using embedding-semantics, logic flow scores, keyword scores etc.....
    - Scores are calculated question-wise.
 
 3. **Output**:
-   - Student scores shown via Flask web dashboard.
+   - Student scores shown via nextjs web dashboard.
    - Detailed marks sent to students via email.
 
 ---
@@ -44,7 +46,7 @@ Here is the demo video of LazyGrader
 - **Backend**: Python
 - **Web Framework**: Flask
 - **Database**: MySQL
-- **Similarity Evaluation**: Cosine Similarity (using NLP embeddings)
+- **Similarity Evaluation**: a simple elegant equation which uses embeddings in an efficient way (using NLP embeddings)
 - **Email Automation**: Python `smtplib` / `email` libraries (or equivalent)
 
 ---
